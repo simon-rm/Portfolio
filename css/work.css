@@ -64,7 +64,8 @@
   text-align: center;
   margin: auto;
   margin-bottom: 10px;
-  width: fit-content
+  width: fit-content;
+  text-decoration: none;
 }
 
 .btn { /* tweak to your design system */
