@@ -1,0 +1,75 @@
+.projects-grid {
+  width: 85vw;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4rem;
+  justify-content: center;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  width: 20vw;
+  height: auto;
+  position: relative;            /* anchor for absolutely-positioned links */
+  overflow: hidden;
+  padding: 0;                    /* let glass-card handle its own padding */
+}
+
+.project-media img {
+  width: 90%;
+  max-height: 150px;
+  padding: 10px;
+  border-radius: 15px;
+  opacity: 0.5;
+  margin: 0 auto;
+  height: auto;
+  display: block;
+}
+
+.project-links {
+  position: absolute;
+  top: 0.5rem;
+  right: 1.75rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.project-links a {
+  font-size: 1.25rem;
+  padding: 0.5rem 0.2rem;
+  border-radius: 0.4rem;
+  color: #00abd5;
+}
+
+.project-title {
+  margin: 1rem;
+  font-size: 1rem;
+}
+
+.project-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 10px;
+  padding: 0 20px;
+  list-style: disc;
+  text-align: justify;
+  li {
+    font-size: 0.8rem;
+  }
+}
+
+.project-cta {
+  text-align: center;
+  margin: auto;
+  margin-bottom: 10px;
+  width: fit-content
+}
+
+.btn { /* tweak to your design system */
+  display: inline-block;
+  padding: 0.6rem 1.6rem;
+  border-radius: 9999px;
+  font-weight: 600;
+}

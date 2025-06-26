@@ -1,0 +1,13 @@
+.link-slide::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background: #ffffff;
+    transition: width .3s;
+}
+
+.link-slide:hover::after {
+    width: 100%;
+    transition: width .3s;
+}

@@ -1,0 +1,17 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.float{
+position: relative;
+  animation: floaty 5s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+@keyframes floaty {
+  0%   { transform: translateY(-1.5%); }
+  50%  { transform: translateY(1.5%);  }
+  100% { transform: translateY(-1.5%); }
+}

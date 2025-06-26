@@ -1,0 +1,398 @@
+<html><head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WarpDrive Portfolio Prototype</title> 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/jquery.warpdrive.js"></script>
+    <script defer src="js/glass-card.js"></script>
+    <script defer src="js/cursor.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/btn-slide.css">
+    <link rel="stylesheet" href="css/btn-glow.css">
+    <link rel="stylesheet" href="css/glass-card.css">
+    <link rel="stylesheet" href="css/work.css">
+    <link rel="stylesheet" href="css/cursor.css">
+
+    <style type="text/css">
+        /* RESET */
+        html, body { height: 100%; margin: 0; font-family: "Inter", Arial, sans-serif; overflow: hidden; background:#000; color:#fafafa; }
+
+        a {
+            color: white; 
+            text-decoration: none;
+        }
+
+        /* WARP CANVAS */
+        #warp-canvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:-1; }
+
+        /* SECTIONS */
+        .section { 
+            position:absolute; 
+            top:50%; left:50%; 
+            transform:translate(-50%,-50%); 
+            text-align:center; 
+            max-width:90vw; 
+            padding:2rem; 
+            transition:transform .6s ease, opacity .6s ease; 
+        }
+        .section h1 { font-size:clamp(2.5rem,5vw,4rem); margin:0 0 1rem; }
+        .section { 
+            p {
+                font-size:1.15rem; 
+                margin:0 0 2rem; 
+                line-height:1.4; 
+                text-align: justify;
+            }
+        }
+
+        #work {
+          .nav-buttons {
+            margin-top: -100;
+          }
+        }
+
+        /* BUTTONS */
+        .nav-buttons{
+            display:flex;
+            flex-direction: column;
+            flex-wrap:wrap;
+            gap: 10px;
+            position: absolute;
+            right: 0;
+            margin-top: -20;
+            .arrow-right {
+                align-self: end;
+                width: 20px;
+                height: 20px;
+                margin-bottom: 10px;
+                transform: scale(1, -1);
+                margin: 0 20px 0;
+            }
+
+            &.back {
+              right: unset;
+              left: 0;
+              .arrow-right {
+                transform: scale(-1, -1);
+              }
+            }
+        }
+        .nav-button{
+            color: white; /* or background-color: white; depending on element type */
+            font-weight: 500;
+            background-color: transparent;
+            border: none;
+            align-self: end;
+            font-size:1.25rem;
+            cursor:pointer;
+            transition: .25s ease;
+            &:hover {
+                text-shadow: 0 0 5px #00abd5, 0 0 10px #00abd5;
+            }
+        }
+
+        .contacts {
+            display: flex;
+            justify-self: center;
+            flex-direction: column;
+            gap: 10px;
+            list-style: none;
+            text-align: justify;
+            i {
+                margin-right: 20px;
+            }
+        }
+
+        #fullscreen-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            opacity: 0.6;
+            color: white;
+            font-size: 24px;
+        }
+
+        /* TRANSITION STATES */
+        .exit{transform:translate(-50%,-50%) scale(3);opacity:0;}
+        .enter{transform:translate(-50%,-50%) scale(0);opacity:0;}
+        /* reverse direction (zoom-out ➜ shrink, zoom-in ➜ grow)  */
+        .exit-reverse  { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+        .enter-reverse { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+
+    </style>
+
+</head>
+<body>
+  <button id="fullscreen-btn">
+    <i class="fa-solid fa-expand"></i>
+  </button>
+  <canvas id="canvas"></canvas>
+  <div class="reverse" id="holder">
+  <div id="cursor">
+    <img src="img/cursor.svg">
+  </div>
+  <!-- Presentation -->
+  <section class="section" id="presentation">
+    <div class="float">
+      <h1>👋 Hi, I'm Simón </h1>
+      <p>Rails developer building fast, lovable web experiences.</p>
+    </div>
+    <div class="nav-buttons">
+      <img class="arrow-right" src="img/arrow-right.svg">
+      <button class="nav-button" data-target="work">Work</button>
+      <button class="nav-button" data-target="about">About&nbsp;Me</button>
+      <button class="nav-button" data-target="contact">Contact</button>
+    </div>
+  </section>
+
+  <!-- Work -->
+  <section class="section" id="work" style="display: none" >
+    <h1>💼 Selected Work</h1>
+    <div class="float">
+    <!-- Projects grid -->
+    <div class="projects-grid">
+      <!-- Supra -->
+      <article data-tilt data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.1" class="glass-card project-card">
+        <div class="project-media">
+          <img src="img/supra-cover.png" alt="Screenshot of Supra app">
+          <div class="project-links">
+            <a href="https://www.supra.social/" aria-label="Live site">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+
+        <h3 class="project-title">Dev at Supra (2024-2025)</h3>
+
+        <ul class="project-bullets">
+          <li>Enterprise CRM powering Warner & Sony marketing teams.</li>
+          <li>Improved report loads from 8 s → 1.2 s by fixing N+1 queries.</li>
+          <li>Shipped TikTok trend-analysis module for a Fortune 100 client.</li>
+          <li>Multi-release schema overhaul with PBAC and safe rollbacks.</li>
+        </ul>
+
+
+
+        <a href="https://www.supra.social/" data-effect="wave" class="btn btn-glow project-cta">
+          <span>View page</span>
+          <div class="shimmer"></div>
+        </a>
+      </article>
+
+      <!-- Chatbot -->
+      <article data-tilt data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.1" class="glass-card project-card">
+        <div class="project-media">
+          <img src="img/chatbot-cover.png" alt="Screenshot of Chatbot">
+          <div class="project-links">
+            <a href="https://gist.github.com/simon-rm/9313f918c8ecd305e18a72e99b95016d/edit" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://chatbotty.up.railway.app/" aria-label="Live site">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+          </div>
+        </div>
+
+        <h3 class="project-title">Voice AI Chatbot</h3>
+
+        <ul class="project-bullets">
+          <li>Whisper + TTS + GPT-4 for real-time voice chat</li>
+          <li>Hotwire frontend with instant audio playback</li>
+          <li>Token-cost estimator &amp; caching layer</li>
+          <li>Custom user memory per session</li>
+        </ul>
+
+        <a href="https://chatbotty.up.railway.app/" data-effect="wave" class="btn btn-glow project-cta">
+          <span>Try the demo</span>
+          <div class="shimmer"></div>
+        </a>
+      </article>
+
+      <!-- TimeWallet -->
+      <article data-tilt data-tilt-glare data-tilt-max-glare="0.3" data-tilt-scale="1.1" class="glass-card project-card">
+        <div class="project-media">
+          <img src="img/timewallet-cover.png" alt="Screenshot of TimeWallet">
+          <div class="project-links">
+            <a href="https://github.com/simon-rm/TimeWallet" aria-label="GitHub">
+              <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://github.com/simon-rm/TimeWallet" aria-label="Live site">
+              <i class="fa-solid fa-arrow-up-right-from-square"></i>
+            </a>
+            <!-- If you don’t have a live link yet, drop this anchor -->
+          </div>
+        </div>
+
+        <h3 class="project-title">TimeWallet</h3>
+
+        <ul class="project-bullets">
+          <li>24h/day budget split into Work, Life, and Sleep</li>
+          <li>Exclusive timers enforce daily limits</li>
+          <li>Rails + Hotwire; offline-ready via service workers</li>
+          <li>Auto-resets daily to keep habits on track</li>
+        </ul>
+
+        <a href="https://timewallet.up.railway.app/" data-effect="wave" class="btn btn-glow project-cta">
+          <span>Try the demo</span>
+          <div class="shimmer"></div>
+        </a>
+      </article>
+    </div>
+    </div>
+
+    <div class="nav-buttons">
+      <img class="arrow-right" src="img/arrow-right.svg">
+      <button class="nav-button" data-target="about">About&nbsp;Me</button>
+      <button class="nav-button" data-target="contact">Contact</button>
+    </div>
+    <div class="nav-buttons back">
+      <img class="arrow-right" src="img/arrow-right.svg">
+      <button class="nav-button" data-back data-target="presentation">Home</button>
+    </div>
+  </section>
+
+  <!-- About -->
+<section class="section" id="about" style="display:none;">
+  <div class="float">
+    <h1>👨🏻‍💻 About Me</h1>
+    <p>Hey, I’m Simón R. Murcia, a Ruby on Rails developer who’d rather ship clean, maintainable code today than refactor tomorrow's headaches. After completing Le Wagon’s intensive web-dev bootcamp and studying two years at ITBA (Instituto Tecnológico de Buenos Aires), I spent over a year at Supra optimizing performance and shipping features for enterprise clients.</p>
+    <p>When I’m not sweating architecture—like building real-time chatbots or a 24-hour-budget time tracker—I’m usually out with my camera, chasing breath-taking shots.</p>
+    <div class="nav-buttons">
+      <img class="arrow-right" src="img/arrow-right.svg">
+      <button class="nav-button" data-target="contact">Contact</button>
+    </div>
+  </div>
+  <div class="nav-buttons back">
+    <img class="arrow-right" src="img/arrow-right.svg">
+    <button class="nav-button" data-back data-target="work">Work</button>
+    <button class="nav-button" data-back data-target="presentation">Home</button>
+  </div>
+</section>
+
+
+  <!-- Contact -->
+  <section class="section" id="contact" style="display:none;">
+    <div class="float">
+      <h1>📬 Get in Touch</h1>
+      <ul class="contacts">
+          <li class="link-slide"><i class="fas fa-envelope"></i> <a href="mailto:simonrmurcia@gmail.com">simonrmurcia@gmail.com</a></li>
+          <li class="link-slide"><i class="fas fa-phone"></i> <a href="tel:+5492975016053">+54 9 297 501-6053</a></li>
+          <li class="link-slide"><i class="fab fa-github"></i> <a href="https://github.com/simon-rm" target="_blank">@simon-rm</a></li>
+          <li class="link-slide"><i class="fab fa-linkedin"></i> <a href="https://linkedin.com/in/simon-rm" target="_blank">linkedin.com/in/simon-rm</a></li>
+          <li class="link-slide"><i class="fas fa-file-alt"></i> <a href="Simon_R_Murcia_CV.pdf" target="_blank">My CV</a></li>
+      </ul>
+    </div>
+    <div class="nav-buttons back">
+      <img class="arrow-right" src="img/arrow-right.svg">
+      <button class="nav-button" data-back data-target="about">About&nbsp;Me</button>
+      <button class="nav-button" data-back data-target="work">Work</button>
+      <button class="nav-button" data-back data-target="presentation">Home</button>
+    </div>
+  </section>
+  </div>
+
+
+  <!-- SCRIPTS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <!-- The WarpDrive plugin – easiest is to host locally next to this file.
+       If you prefer CDN, use jsDelivr’s raw‑GitHub path: -->
+  <script src="js/jquery.warpdrive.js"></script>
+
+  <script>
+    $(function(){
+      /* 1. Initialise WarpDrive on the #warp-canvas container */
+      const warpSettings={
+        autoResize:true,
+        starCount: 10000,
+        starBgCount:2000,
+        starSpeed:5,            /* slow drift by default */
+        starSpeedMax:250,       /* warp speed on transitions */
+        starSpeedAnimationDuration:1.0,
+        addMouseControls: false,
+        starFollowMouseSensitivity: 0,
+      };
+
+      const $holder = $('#holder');
+      $holder.warpDrive(warpSettings);
+
+      const audio = new Audio('audio/warp.mp3');
+      audio.preload = 'auto'; // preload file
+
+      /* 2. Simple page‑switcher */
+      let current='presentation';
+      $('.nav-button').on('click', function () {
+        const target   = $(this).data('target');
+        if (target === current) return;
+
+        audio.currentTime = 0;
+        audio.play();
+
+        const reverse  = $(this).is('[data-back]');     // ⇦ are we going “back”?
+        const $current = $('#' + current);
+        const $next    = $('#' + target);
+
+        /* WarpDrive setup (keeps your background flip-flop) */
+        $holder
+          .toggleClass('reverse', reverse)  // only add if reverse === true
+          .addClass('warp-active');
+
+        /* a) Zoom current section out */
+        setTimeout(() => {
+          $current.addClass(reverse ? 'exit-reverse' : 'exit');
+        }, 200);
+
+        /* b) After the zoom-out, swap sections */
+        setTimeout(() => {
+          $current.hide().removeClass('exit exit-reverse');
+          $holder.removeClass('warp-active');
+
+          /* c) Zoom next section in */
+          setTimeout(() => {
+            $next
+              .addClass(reverse ? 'enter-reverse' : 'enter')
+              .show();
+            window.dispatchEvent(new Event('resize'));
+          }, 100);                                     // wait a beat so display:none is gone
+
+          /* d) Clear enter class after animation */
+          setTimeout(() => {
+            $next.removeClass('enter enter-reverse');
+          }, 1000);
+
+          current = target;
+        }, 1500);                                       // matches your 0.6 s + warp delay
+      });})
+
+  </script>
+<script>
+  document.querySelector("#fullscreen-btn").addEventListener('click', () => {
+    console.log("Fullscreen button clicked");
+    
+    if (!document.fullscreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+      const elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      } else if (elem.webkitRequestFullscreen) { // Safari
+        elem.webkitRequestFullscreen();
+      } else if (elem.msRequestFullscreen) { // IE11
+        elem.msRequestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitExitFullscreen) { // Safari
+        document.webkitExitFullscreen();
+      } else if (document.msExitFullscreen) { // IE11
+        document.msExitFullscreen();
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
