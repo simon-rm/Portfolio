@@ -7,7 +7,6 @@
     <script defer src="js/glass-card.js"></script>
     <script defer src="js/cursor.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="css/styles.css">
     <link rel="stylesheet" href="css/btn-slide.css">
     <link rel="stylesheet" href="css/btn-glow.css">
     <link rel="stylesheet" href="css/glass-card.css">
@@ -16,24 +15,35 @@
 
     <style type="text/css">
         /* RESET */
-        html, body { height: 100%; margin: 0; font-family: "Inter", Arial, sans-serif; overflow: hidden; background:#000; color:#fafafa; }
+        html, body { 
+          height: 100%; 
+          margin: 0; 
+          font-family: "Inter"; 
+          background:#000; 
+          color:#fafafa; 
+          overflow: hidden;
+        }
 
         a {
             color: white; 
         }
 
-        /* WARP CANVAS */
-        #warp-canvas { position:fixed; inset:0; width:100%; height:100%; pointer-events:none; z-index:-1; }
+        #holder {
+          height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
 
         /* SECTIONS */
         .section { 
+            z-index: 1;
             position:absolute; 
             top:50%; left:50%; 
-            transform:translate(-50%,-50%); 
+            translate: -50% -50%; 
             text-align:center; 
-            max-width:90vw; 
-            padding:2rem; 
-            transition:transform .6s ease, opacity .6s ease; 
+            width: 50vw; 
+            transition: translate .6s ease, scale .6s ease, opacity .6s ease; 
         }
         .section h1 { font-size:clamp(2.5rem,5vw,4rem); margin:0 0 1rem; }
         .section { 
@@ -45,9 +55,27 @@
             }
         }
 
-        #work {
+        #presentation {
+          p {
+            text-align: center;
+          }
+        }
+
+        #contact {
           .nav-buttons {
-            margin-top: -100;
+            margin-top: 30px;
+          }
+        }
+
+        #work {
+          position: relative;
+          top: unset;
+          left: unset;
+          translate: 0 0;
+          padding: 0 130px;
+          width: 100vw;
+          .nav-buttons {
+            margin: -100px 40px 0;
           }
         }
 
@@ -120,14 +148,11 @@
         }
 
         /* TRANSITION STATES */
-        .exit{transform:translate(-50%,-50%) scale(3);opacity:0;}
-        .enter{transform:translate(-50%,-50%) scale(0);opacity:0;}
-        /* reverse direction (zoom-out ➜ shrink, zoom-in ➜ grow)  */
-        .exit-reverse  { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-        .enter-reverse { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+        .exit{ scale: 3;opacity:0; }
+        .enter{ scale: 0;opacity:0; }
 
     </style>
-
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <button id="fullscreen-btn">
@@ -264,10 +289,10 @@
     <h1>👨🏻‍💻 About Me</h1>
     <p>Hey, I’m Simón R. Murcia, a Ruby on Rails developer who’d rather ship clean, maintainable code today than refactor tomorrow's headaches. After completing <a href="https://www.lewagon.com/" target="_blank">Le Wagon’s</a> intensive web-dev bootcamp and studying three years at <a href="https://www.itba.edu.ar/en/" target="_blank">ITBA (Instituto Tecnológico de Buenos Aires)</a>, I spent over a year at <a href="https://www.supra.social/" target="_blank">Supra</a> optimizing performance and shipping features for enterprise clients.</p>
     <p>When I’m not sweating architecture—like building real-time chatbots or a 24-hour-budget time tracker—I’m usually out with my camera, chasing breath-taking shots.</p>
-    <div class="nav-buttons">
-      <img class="arrow-right" src="img/arrow-right.svg">
-      <button class="nav-button" data-target="contact">Contact</button>
-    </div>
+  </div>
+  <div class="nav-buttons">
+    <img class="arrow-right" src="img/arrow-right.svg">
+    <button class="nav-button" data-target="contact">Contact</button>
   </div>
   <div class="nav-buttons back">
     <img class="arrow-right" src="img/arrow-right.svg">
@@ -345,25 +370,25 @@
 
         /* a) Zoom current section out */
         setTimeout(() => {
-          $current.addClass(reverse ? 'exit-reverse' : 'exit');
+          $current.addClass(reverse ? 'enter' : 'exit');
         }, 200);
 
         /* b) After the zoom-out, swap sections */
         setTimeout(() => {
-          $current.hide().removeClass('exit exit-reverse');
+          $current.hide().removeClass('exit enter');
           $holder.removeClass('warp-active');
 
           /* c) Zoom next section in */
           setTimeout(() => {
             $next
-              .addClass(reverse ? 'enter-reverse' : 'enter')
+              .addClass(reverse ? 'exit' : 'enter')
               .show();
             window.dispatchEvent(new Event('resize'));
           }, 100);                                     // wait a beat so display:none is gone
 
           /* d) Clear enter class after animation */
           setTimeout(() => {
-            $next.removeClass('enter enter-reverse');
+            $next.removeClass('enter exit');
           }, 1000);
 
           current = target;

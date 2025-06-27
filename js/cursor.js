@@ -80,7 +80,7 @@ window.onresize = function () {
   ctx.canvas.height = window.innerHeight;
 }
 
-dots = []; emitRate = 9; minRad = 1; maxRad = 2; color = "white"; opc = 0.6; sha = 2; lifeTime = 30; tn = 0; roc = 1; speed = 1;
+dots = []; emitRate = 9; minRad = 1; maxRad = 2; color = "white"; opc = 0.6; sha = 0; lifeTime = 35; tn = 0; roc = 1; speed = 1;
 
 var controls = new function() {
   this.emitRate = emitRate;

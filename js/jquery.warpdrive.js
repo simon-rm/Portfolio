@@ -632,8 +632,7 @@ THE SOFTWARE.
 
             //---
 
-            const isActive = mouseActive                                     // hover / touch
-              || externalActive                                   // JS flag
+            const isActive = externalActive                                   // JS flag
               || (settings.activationClass                        // CSS class
                   && element.classList.contains(settings.activationClass));
             

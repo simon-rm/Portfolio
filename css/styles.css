@@ -10,8 +10,63 @@ position: relative;
   will-change: transform;
 }
 
+#canvas {
+  z-index: 2;
+}
+
+#holder {
+  canvas {
+      position: fixed;
+      top: 0;
+      z-index: 0;
+  }
+}
+
 @keyframes floaty {
   0%   { transform: translateY(-1.5%); }
   50%  { transform: translateY(1.5%);  }
   100% { transform: translateY(-1.5%); }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  #cursor img {
+    display: none;
+  }
+}
+
+@media (max-width: 1170px) {
+  .section {
+    width: 90vw;
+  }
+  body:not(:has(.enter, .exit)) {
+    overflow-y: auto;
+  }
+@keyframes floaty {
+  0%   { transform: translateY(-0.5%); }
+  50%  { transform: translateY(0.5%);  }
+  100% { transform: translateY(-0.5%); }
+}
+  section#work  {
+    margin-top: 40px;
+  }
+  #holder {
+    height: auto;
+    display: block;
+  }
+}
+
+@media (max-width: 600px) {
+  #about {
+    p {
+      font-size: 1rem;
+    }
+  }
+  section#work  {
+    padding: 0 10px;
+    .nav-buttons {
+      margin: 30px 20px 0;
+      padding-bottom: 10px;
+    }
+    
+  }
 }
