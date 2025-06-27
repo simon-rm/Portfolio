@@ -28,12 +28,6 @@ position: relative;
   100% { transform: translateY(-1.5%); }
 }
 
-@media (hover: none) and (pointer: coarse) {
-  #cursor img {
-    display: none;
-  }
-}
-
 @media (max-width: 1170px) {
   .section {
     width: 90vw;
@@ -52,6 +46,12 @@ position: relative;
   #holder {
     height: auto;
     display: block;
+  }
+}
+
+@media (max-width: 1024px) {
+  #cursor img {
+    display: none;
   }
 }
 

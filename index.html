@@ -45,7 +45,7 @@
             width: 50vw; 
             transition: translate .6s ease, scale .6s ease, opacity .6s ease; 
         }
-        .section h1 { font-size:clamp(2.5rem,5vw,4rem); margin:0 0 1rem; }
+        .section h1 { font-size:clamp(2.5rem,5vw,4rem); margin:0 0 22px; }
         .section { 
             p {
                 font-size:1.15rem; 
@@ -155,6 +155,7 @@
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
+  <audio id="warp-audio" src="audio/warp.mp3" preload="auto"></audio>
   <button id="fullscreen-btn">
     <i class="fa-solid fa-expand"></i>
   </button>
@@ -347,8 +348,7 @@
       const $holder = $('#holder');
       $holder.warpDrive(warpSettings);
 
-      const audio = new Audio('audio/warp.mp3');
-      audio.preload = 'auto'; // preload file
+      const audio = document.getElementById('warp-audio');
 
       /* 2. Simple page‑switcher */
       let current='presentation';
@@ -383,7 +383,7 @@
             $next
               .addClass(reverse ? 'exit' : 'enter')
               .show();
-            window.dispatchEvent(new Event('resize'));
+            //window.dispatchEvent(new Event('resize'));
           }, 100);                                     // wait a beat so display:none is gone
 
           /* d) Clear enter class after animation */
