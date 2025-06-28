@@ -444,7 +444,7 @@ class VanillaTilt {
       "full-page-listening": false,
       "mouse-event-element": null,
       reset: true,
-      gyroscope: true,
+      gyroscope: false,
       gyroscopeMinAngleX: -45,
       gyroscopeMaxAngleX: 45,
       gyroscopeMinAngleY: -45,
