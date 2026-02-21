@@ -1,0 +1,30 @@
+#cursor {
+  z-index: 5;
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  will-change: transform;
+  transform: translate(-999px, -999px);
+  pointer-events: none;
+
+  img {
+    width: 30px;
+    height: 30px;
+    will-change: transform;
+    transition: transform .1s linear;
+  }
+}
+
+html, body, button, a, input, textarea {
+  cursor: none !important;
+}
+
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: transparent;
+  pointer-events: none;
+}
+
+/* TRAIL */
